@@ -15,10 +15,10 @@ class GoogleGenerativeLLM:
         self.logger = logging.getLogger(__name__)
         try:
             self.client = ChatGoogleGenerativeAI(
-                api_key= st.secrets("GOOGLE_API_KEY"), # os.getenv("GOOGLE_API_KEY") ,# or settings.GOOGLE_API_KEY,
-                model= st.secrets("GOOGLE_GENERATIVE_MODEL"), # os.getenv("GOOGLE_GENERATIVE_MODEL"), # or settings.GOOGLE_GENERATIVE_MODEL,
-                max_tokens= st.secrets("MAX_TOKENS"), # or settings.MAX_TOKENS,
-                temperature= st.secrets("TEMPERATURE") # or settings.TEMPERATURE,
+                api_key= st.secrets["GOOGLE_API_KEY"], # os.getenv("GOOGLE_API_KEY") ,# or settings.GOOGLE_API_KEY,
+                model= st.secrets["GOOGLE_GENERATIVE_MODEL"], # os.getenv("GOOGLE_GENERATIVE_MODEL"), # or settings.GOOGLE_GENERATIVE_MODEL,
+                max_tokens= st.secrets["MAX_TOKENS"], # or settings.MAX_TOKENS,
+                temperature= st.secrets["TEMPERATURE"] # or settings.TEMPERATURE,
             )
         except Exception as e:
             self.logger.error(f"Failed to initialize ChatGoogleGenerativeAI client: {e}")
