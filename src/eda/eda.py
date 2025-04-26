@@ -48,8 +48,19 @@ class EDA:
         ax.set_ylabel('Cause')
         st.pyplot(fig)
 
-    def show_average_resolution_time(self):
-        """Show average resolution time in hours."""
-        average_resolution = self.df['Resolution_Time_Hours'].mean()
-        st.metric(label="Average Resolution Time (hours)", value=f"{average_resolution:.2f}")
-        return average_resolution
+    
+    def show_summary_cards(self):
+        """Display summary cards at the top of the EDA page."""
+        col1, col2, col3 = st.columns(3)
+
+        with col1:
+            total_tickets = self.df.shape[0]
+            st.metric(label="Total Tickets", value=total_tickets)
+
+        with col2:
+            avg_resolution = self.df['Resolution_Time_Hours'].mean()
+            st.metric(label="Avg Resolution Time (hours)", value=f"{avg_resolution:.2f}")
+
+        with col3:
+            max_resolution = self.df['Resolution_Time_Hours'].max()
+            st.metric(label="Max Resolution Time (hours)", value=f"{max_resolution:.2f}")

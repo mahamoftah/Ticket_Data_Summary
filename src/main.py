@@ -146,11 +146,18 @@ elif page == "EDA Analysis":
     if st.session_state.processed_df is not None:
         eda = EDA(st.session_state.processed_df)
 
+        st.write("\n\n")
+        st.divider()
+        eda.show_summary_cards()
+        st.divider()
+
         eda.plot_service_category_distribution()
+        st.write("\n\n")
+        st.divider()
+        st.write("\n\n")
         # eda.plot_product_distribution()
         eda.plot_top_issue_causes()
-        avg_time = eda.show_average_resolution_time()
+        st.write("\n\n")
 
-        st.write(f"The average resolution time across all tickets is approximately **{avg_time:.2f} hours**.")
     else:
         st.warning("No processed data available. Please upload and process a file first.")
