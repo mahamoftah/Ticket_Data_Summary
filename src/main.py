@@ -3,6 +3,7 @@ import pandas as pd
 from file_uploading.file_uploader import FileUploader
 from file_preprocessing.file_processor import FileProcessor
 from data_extraction.data_extractor import DataExtractor
+from eda.eda import EDA
 from summary_generation.summary_generator import SummaryGenerator
 from summary_generation.llm import GoogleGenerativeLLM
 import tempfile
@@ -11,7 +12,7 @@ from config import get_settings
 # Streamlit app configuration
 st.set_page_config(page_title="Ticket Analyzer", layout="wide")
 st.sidebar.title("Ticket Data Summarizer")
-page = st.sidebar.radio(" ", ("Upload", "Preview Raw Data", "Preview Processed Data", "Storytelling"))
+page = st.sidebar.radio(" ", ("Upload", "Preview Raw Data", "Preview Processed Data", "Storytelling", "EDA Analysis"))
 
 
 # Global state
@@ -30,7 +31,7 @@ file_processor = FileProcessor()
 REQUIRED_COLUMNS = [
     'ORDER_NUMBER', 'SERVICE_CATEGORY', 'ACCEPTANCE_TIME', 'COMPLETION_TIME',
     'ORDER_DESCRIPTION_1', 'ORDER_DESCRIPTION_2', 'ORDER_DESCRIPTION_3_MAXIMUM',
-    'NOTE_MAXIMUM', 'CAUSE', 'COMPLETION_NOTE_MAXIMUM'
+    'NOTE_MAXIMUM', 'CAUSE', 'COMPLETION_NOTE_MAXIMUM', 'CUSTOMER_NUMBER'
 ]
 VALID_CATEGORIES = ['HDW', 'NET', 'KAI', 'KAV', 'GIGA', 'VOD', 'KAD']
 CATEGORY_PRODUCT_MAPPER = {
@@ -138,3 +139,18 @@ elif page == "Storytelling":
             st.write(f"")
             st.write(st.session_state.generated_summary)
 
+# Example usage in your Streamlit main app
+elif page == "EDA Analysis":
+    st.subheader("📊 Exploratory Data Analysis")
+
+    if st.session_state.processed_df is not None:
+        eda = EDA(st.session_state.processed_df)
+
+        eda.plot_service_category_distribution()
+        # eda.plot_product_distribution()
+        eda.plot_top_issue_causes()
+        avg_time = eda.show_average_resolution_time()
+
+        st.write(f"The average resolution time across all tickets is approximately **{avg_time:.2f} hours**.")
+    else:
+        st.warning("No processed data available. Please upload and process a file first.")
