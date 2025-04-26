@@ -1,7 +1,7 @@
 from langchain_google_genai import ChatGoogleGenerativeAI
 import logging
 from config import get_settings
-
+import os
 
 class GoogleGenerativeLLM:
     """Provider for Google Generative AI (Gemini/PaLM models).
@@ -14,10 +14,10 @@ class GoogleGenerativeLLM:
         self.logger = logging.getLogger(__name__)
         try:
             self.client = ChatGoogleGenerativeAI(
-                api_key=settings.GOOGLE_API_KEY,
-                model=settings.GOOGLE_GENERATIVE_MODEL,
-                max_tokens=settings.MAX_TOKENS,
-                temperature=settings.TEMPERATURE,
+                api_key= os.getenv("GOOGLE_API_KEY") or settings.GOOGLE_API_KEY,
+                model= os.getenv("GOOGLE_GENERATIVE_MODEL") or settings.GOOGLE_GENERATIVE_MODEL,
+                max_tokens= int(os.getenv("MAX_TOKENS")) or settings.MAX_TOKENS,
+                temperature= float(os.getenv("TEMPERATURE")) or settings.TEMPERATURE,
             )
         except Exception as e:
             self.logger.error(f"Failed to initialize ChatGoogleGenerativeAI client: {e}")
