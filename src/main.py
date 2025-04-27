@@ -12,7 +12,7 @@ from config import get_settings
 # Streamlit app configuration
 st.set_page_config(page_title="Ticket Analyzer", layout="wide")
 st.sidebar.title("Ticket Data Summarizer")
-page = st.sidebar.radio(" ", ("Upload", "Preview Raw Data", "Preview Processed Data", "Storytelling", "EDA Analysis"))
+page = st.sidebar.radio(" ", ("Upload", "Dashboard", "Preview Raw Data", "Preview Processed Data", "Storytelling"))
 
 
 # Global state
@@ -30,9 +30,9 @@ file_processor = FileProcessor()
 # Load settings
 REQUIRED_COLUMNS = [
     'ORDER_NUMBER', 'SERVICE_CATEGORY', 'ACCEPTANCE_TIME', 'COMPLETION_TIME',
-    'ORDER_DESCRIPTION_1', 'ORDER_DESCRIPTION_2', 'ORDER_DESCRIPTION_3_MAXIMUM',
-    'NOTE_MAXIMUM', 'CAUSE', 'COMPLETION_NOTE_MAXIMUM', 'CUSTOMER_NUMBER'
+    'ORDER_DESCRIPTION_1', 'ORDER_DESCRIPTION_2', 'ORDER_DESCRIPTION_3_MAXIMUM', 'CAUSE', 'COMPLETION_NOTE_MAXIMUM'
 ]
+# 'NOTE_MAXIMUM'
 VALID_CATEGORIES = ['HDW', 'NET', 'KAI', 'KAV', 'GIGA', 'VOD', 'KAD']
 CATEGORY_PRODUCT_MAPPER = {
     'KAI': 'Broadband',
@@ -140,7 +140,7 @@ elif page == "Storytelling":
             st.write(st.session_state.generated_summary)
 
 # Example usage in your Streamlit main app
-elif page == "EDA Analysis":
+elif page == "Dashboard":
     st.subheader("📊 Exploratory Data Analysis")
 
     if st.session_state.processed_df is not None:
